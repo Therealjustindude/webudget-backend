@@ -1,2 +1,2 @@
-class ExpensesController < ApplicationController
+class Api::V1::ExpensesController < ApplicationController
 end
