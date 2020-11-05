@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :user_expenses
       resources :users
       resources :expenses
+      post 'authenticate', to: 'authentication#authenticate'
     end
   end
 end
