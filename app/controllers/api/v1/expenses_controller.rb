@@ -3,7 +3,7 @@ class Api::V1::ExpensesController < ApplicationController
 
 	def index	
 		@expenses = Expense.all
-		render json: accounts
+		render json: @expenses
 	end
 
 	def show
@@ -11,12 +11,12 @@ class Api::V1::ExpensesController < ApplicationController
 	end
 
 	def create
-		@expense = Expense.new(exspense_params)
+		@expense = Expense.new(expense_params)
 		#add logic to make sure user is logged in and able to create this expense
-		if @account.save 
+		if @expense.save 
 			render json: @expense
 		else
-			render json: @account.errors, status: :unprocessable_entity
+			render json: @expense.errors, status: :unprocessable_entity
 		end
 		
 	end
@@ -38,6 +38,7 @@ class Api::V1::ExpensesController < ApplicationController
 	def set_expense
 		@expense = Expense.find(params[:id])
 	end
+	
 	def exspense_params
 		params.require(:expenses).permit(:id, :user_id, :description, :amount, :date_due, :bank_account, :is_automatic, :is_paid, :is_money_in_account)
 	end
