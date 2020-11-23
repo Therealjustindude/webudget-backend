@@ -4,8 +4,9 @@ class Api::V1::AuthenticationController < ApplicationController
 	def authenticate
 	  command = AuthenticateUser.call(auth_params[:email], auth_params[:password])
 	  if command.success?
-		user = User.find_by_email(command.email)
-		render json: { user: user, auth_token: command.result }
+		currentUser = User.find_by_email(command.email)
+		serializedUser = Api::V1::UserSerializer.new(currentUser)
+		render json: { user: serializedUser, auth_token: command.result }, root: false
 	  else
 		render json: { error: command.errors }, status: :unauthorized
 	  end
