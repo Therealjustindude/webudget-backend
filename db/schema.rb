@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_05_180957) do
+ActiveRecord::Schema.define(version: 2020_11_28_011142) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -33,8 +33,20 @@ ActiveRecord::Schema.define(version: 2020_11_05_180957) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "debts", force: :cascade do |t|
+    t.string "title"
+    t.integer "total"
+    t.boolean "is_paid"
+    t.integer "user_id"
+    t.integer "expenses"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_debts_on_user_id"
+  end
+
   create_table "expenses", force: :cascade do |t|
     t.integer "user_id"
+    t.integer "debt_id"
     t.string "description"
     t.float "amount"
     t.date "date_due"
@@ -43,13 +55,19 @@ ActiveRecord::Schema.define(version: 2020_11_05_180957) do
     t.boolean "is_paid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["debt_id"], name: "index_expenses_on_debt_id"
+    t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
   create_table "user_expenses", force: :cascade do |t|
     t.integer "expense_id"
     t.integer "user_id"
+    t.integer "debt_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["debt_id"], name: "index_user_expenses_on_debt_id"
+    t.index ["expense_id"], name: "index_user_expenses_on_expense_id"
+    t.index ["user_id"], name: "index_user_expenses_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

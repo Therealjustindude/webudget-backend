@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :users do
         resources :expenses
+        resources :debts
       end
       post 'authenticate', to: 'authentication#authenticate'
     end
