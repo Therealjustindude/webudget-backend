@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 2020_11_05_180957) do
     t.string "bank_account"
     t.boolean "is_automatic"
     t.boolean "is_paid"
-    t.boolean "is_money_in_account"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

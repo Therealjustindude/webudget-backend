@@ -8,7 +8,6 @@ class CreateExpenses < ActiveRecord::Migration[6.0]
       t.string :bank_account
       t.boolean :is_automatic
       t.boolean :is_paid
-      t.boolean :is_money_in_account
 
       t.timestamps
     end
