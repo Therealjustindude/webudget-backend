@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_11_28_065930) do
 
   create_table "debts", force: :cascade do |t|
     t.string "title"
-    t.integer "total"
+    t.float "total"
     t.boolean "is_paid"
     t.integer "user_id"
     t.string "expenses"
