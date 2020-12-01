@@ -15,35 +15,26 @@ class Api::V1::ExpensesController < ApplicationController
 			if debt
 				debt.expenses << expense
 			end
-			user_expenses = user.expenses.all
-			render json: user_expenses
+			render json: user
 		else
 			render json: expense.errors, status: :unprocessable_entity
 		end
 	end
 
 	def update
-		binding.pry
-		if @expense.update(expense_params)
-				if @expense.debt_id && @expense.is_paid 
-					binding.pry
-					debt = Debt.all.find_by(id: @expense.debt_id)
-					debt.total = debt.total - @expense.amount
-					if !debt.save 
-						render json: @expense.errors
-					end
-				end
-				if @expense.debt_id && !@expense.is_paid 
-					binding.pry
-					debt = Debt.all.find_by(id: @expense.debt_id)
-					debt.total = debt.total + @expense.amount
-					if !debt.save 
-						render json: @expense.errors
-					end
-				end
+		if expense_params[:is_paid]  != @expense.is_paid
+			debt = Debt.find_by(id: expense_params['debt_sel']) || Debt.find_by(id: @expense.debt_id)
+		end
+		exp_params = expense_params.select {|k, v|  !k.match('debt_sel')}
+		if @expense.update(exp_params)
+			if debt 
+				debt.expenses << @expense
+				debt.update_total(@expense)
+				binding.pry
+				debt.save
+			end
 			user = User.find_by(id: expense_params['user_id'])
-			user_expenses = user.expenses.all
-			render json: user_expenses
+			render json: user
 		  else
 			render json: @expense.errors, status: :unprocessable_entity
 		  end
