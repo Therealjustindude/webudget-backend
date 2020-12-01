@@ -23,15 +23,21 @@ class Api::V1::ExpensesController < ApplicationController
 
 	def update
 		if expense_params[:is_paid]  != @expense.is_paid
-			debt = Debt.find_by(id: expense_params['debt_sel']) || Debt.find_by(id: @expense.debt_id)
+			 up_debt_paid = Debt.find_by(id: expense_params['debt_sel']) || Debt.find_by(id: @expense.debt_id)
+		elsif expense_params['debt_sel']
+			debt_sel = Debt.find_by(id: expense_params['debt_sel'])
 		end
 		exp_params = expense_params.select {|k, v|  !k.match('debt_sel')}
 		if @expense.update(exp_params)
-			if debt 
-				debt.expenses << @expense
-				debt.update_total(@expense)
+			if up_debt_paid
+				up_debt_paid.expenses << @expense
+				up_debt_paid.update_total(@expense)
+				up_debt_paid.save
+			end
+			if debt_sel
+				debt_sel.expenses << @expense
 				binding.pry
-				debt.save
+				debt_sel.save
 			end
 			user = User.find_by(id: expense_params['user_id'])
 			render json: user
