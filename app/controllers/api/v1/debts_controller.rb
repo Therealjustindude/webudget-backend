@@ -24,7 +24,6 @@ class Api::V1::DebtsController < ApplicationController
     if @debt.update(debt_params)
       user = User.find_by(id: debt_params['user_id'])
       user_debts = user.debts.all
-      binding.pry
       render json: user_debts
     else
       render json: @debt.errors, status: :unprocessable_entity
