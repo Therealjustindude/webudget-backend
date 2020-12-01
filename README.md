@@ -20,19 +20,15 @@ This back end API is built with Rails. My front end sends fetch requests to the 
 ```
 bundle install
 ```
-* create the db
-```
-rake db:create
-```
 
 * Run migrations to build tables
 ```
-rake db:migrate
+rails db:migrate
 ```
 
 * Seed database so you can sign in as test user
 ```
-rake db:seed
+rails db:seed
 ```
 
 * Start up the Rails server
