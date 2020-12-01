@@ -13,7 +13,6 @@ class Debt < ApplicationRecord
 
 	def update_total(exp)
 			if exp.is_paid
-				binding.pry
 				exp_total = 0
 				exp_total += exp.amount
 				debt_total = self.total - exp_total
