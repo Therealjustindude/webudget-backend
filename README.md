@@ -16,7 +16,6 @@ This back end API is built with Rails. My front end sends fetch requests to the 
 #### Set up the back end
 
 * cd into the backend folder
-```
 * Bundle the gems 
 ```
 bundle install
