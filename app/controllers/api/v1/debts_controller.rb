@@ -1,11 +1,11 @@
 class Api::V1::DebtsController < ApplicationController
   before_action :set_debt, only: [:update, :destroy]
 
-  def index
-    user = User.find_by(id: params['user_id'])
-		debts = user.debts.all
-		render json: debts
-	end
+  # def index
+  #   user = User.find_by(id: params['user_id'])
+	# 	debts = user.debts.all
+	# 	render json: debts
+	# end
 
   # POST /debts
   def create

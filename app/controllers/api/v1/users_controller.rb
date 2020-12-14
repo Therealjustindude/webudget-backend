@@ -1,9 +1,9 @@
 class Api::V1::UsersController < ApplicationController
 	before_action :set_user, only: [:show, :update, :destroy]
-	def index
-		@user = User.all
-		render json: @user
-	end
+	# def index
+	# 	@user = User.all
+	# 	render json: @user
+	# end
 
 	def show
 		render json: @user 
@@ -23,9 +23,9 @@ class Api::V1::UsersController < ApplicationController
 	def update
 		if @user.update(:paid => true)
 			render json: @user
-		  else
-			render json: @user.errors, status: :unprocessable_entity
-		  end
+		else
+		render json: @user.errors, status: :unprocessable_entity
+		end
 	end
 
 	def destroy
