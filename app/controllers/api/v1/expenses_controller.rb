@@ -8,9 +8,9 @@ class Api::V1::ExpensesController < ApplicationController
 	
 	def create
 		user = User.find_by(id: expense_params['user_id'])
-		debt = Debt.find_by(id: expense_params['debt_sel'])
-		exp_params = expense_params.select {|k, v|  !k.match('debt_sel')} #filter out debt_sel
-		expense = user.expenses.build(exp_params)
+		debt = Debt.find_by(id: expense_params['debt_id'])
+		# binding.pry
+		expense = user.expenses.build(expense_params)
 		if expense.save 
 			if debt
 				debt.expenses << expense
@@ -23,12 +23,11 @@ class Api::V1::ExpensesController < ApplicationController
 
 	def update
 		if expense_params[:is_paid]  != @expense.is_paid
-			 debt_exp_paid = Debt.find_by(id: expense_params['debt_sel']) || Debt.find_by(id: @expense.debt_id)
-		elsif expense_params['debt_sel']
-			debt_sel = Debt.find_by(id: expense_params['debt_sel'])
+			 debt_exp_paid = Debt.find_by(id: expense_params['debt_id']) || Debt.find_by(id: @expense.debt_id)
+		elsif expense_params['debt_id']
+			debt_sel = Debt.find_by(id: expense_params['debt_id'])
 		end
-		exp_params = expense_params.select {|k, v|  !k.match('debt_sel')}
-		if @expense.update(exp_params)
+		if @expense.update(expense_params)
 			if debt_exp_paid
 				debt_exp_paid.expenses << @expense
 				debt_exp_paid.update_total(@expense)
